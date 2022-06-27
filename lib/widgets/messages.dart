@@ -29,9 +29,25 @@ class Messages extends StatelessWidget {
             key: ValueKey(chatDocs[index].id),
             stick: false,
             padding: BubbleEdges.all(10),
-            child: Text(
-              chatDocs[index]['text'],
-              style: TextStyle(fontSize: 18),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  chatDocs[index]['username'],
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: Color.fromRGBO(255, 255, 255, 0.75),
+                  ),
+                  textAlign: chatDocs[index]['userId'] ==
+                          FirebaseAuth.instance.currentUser.uid
+                      ? TextAlign.end
+                      : TextAlign.start,
+                ),
+                Text(
+                  chatDocs[index]['text'],
+                  style: TextStyle(fontSize: 18),
+                ),
+              ],
             ),
             alignment: chatDocs[index]['userId'] ==
                     FirebaseAuth.instance.currentUser.uid
