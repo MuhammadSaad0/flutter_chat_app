@@ -27,10 +27,17 @@ dependencies:
   firebase_core:
   firebase_auth: ^3.3.20
   bubble: ^1.2.1
+  image_picker: ^0.8.5+3
+  firebase_storage: ^10.2.18
+  flutter_native_splash: ^2.2.3+1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+flutter_native_splash:
+  color: "#000000"
+  image: assets/splash.png
+
 
 
 # For information on the generic Dart part of this file, see the
