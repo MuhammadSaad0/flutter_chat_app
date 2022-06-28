@@ -40,13 +40,14 @@ class _AuthFormState extends State<AuthForm> {
         _waiting = true;
       });
     }
+
     await widget.submitFn(_userEmail.trim(), _userName.trim(),
         _userPassword.trim(), _isLogin, context, _userImageFile);
-    // if (mounted) {
-    //   setState(() {
-    //     _waiting = false;
-    //   });
-    // }
+    if (mounted) {
+      setState(() {
+        _waiting = false;
+      });
+    }
   }
 
   @override
