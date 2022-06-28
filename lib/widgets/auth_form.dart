@@ -52,6 +52,9 @@ class _AuthFormState extends State<AuthForm> {
 
   @override
   Widget build(BuildContext context) {
+    var emailController = TextEditingController();
+    var usernameController = TextEditingController();
+    var passwordController = TextEditingController();
     return Center(
       child: Card(
         margin: EdgeInsets.all(20),
@@ -63,6 +66,9 @@ class _AuthFormState extends State<AuthForm> {
               child: Column(mainAxisSize: MainAxisSize.min, children: [
                 if (!_isLogin) UserImagePicker(_pickedImage),
                 TextFormField(
+                  controller: emailController,
+                  autocorrect: false,
+                  textCapitalization: TextCapitalization.none,
                   key: ValueKey("email"),
                   validator: (value) {
                     if (value.isEmpty || !value.contains("@")) {
@@ -87,6 +93,7 @@ class _AuthFormState extends State<AuthForm> {
                 ),
                 if (!_isLogin)
                   TextFormField(
+                    controller: usernameController,
                     key: ValueKey("username"),
                     validator: (value) {
                       if (value.isEmpty) {
@@ -109,6 +116,7 @@ class _AuthFormState extends State<AuthForm> {
                   height: 5,
                 ),
                 TextFormField(
+                  controller: passwordController,
                   key: ValueKey("password"),
                   validator: (value) {
                     if (value.isEmpty || value.length < 7) {
@@ -141,6 +149,9 @@ class _AuthFormState extends State<AuthForm> {
                     onPressed: () {
                       setState(() {
                         _isLogin = !_isLogin;
+                        emailController.text = "";
+                        usernameController.text = "";
+                        passwordController.text = "";
                       });
                     },
                     child: Text(_isLogin

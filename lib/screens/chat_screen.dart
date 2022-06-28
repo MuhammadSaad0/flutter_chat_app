@@ -12,6 +12,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
+    super.initState();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print(message.notification.title);
     });
@@ -19,7 +20,6 @@ class _ChatScreenState extends State<ChatScreen> {
       print(message.notification.title);
       return Future.delayed(Duration.zero);
     });
-    super.initState();
   }
 
   @override
@@ -30,6 +30,7 @@ class _ChatScreenState extends State<ChatScreen> {
         title: Text("FlutterChat"),
         actions: [
           DropdownButton(
+            underline: Container(),
             onChanged: (itemId) {
               if (itemId == "Logout") {
                 FirebaseAuth.instance.signOut();
