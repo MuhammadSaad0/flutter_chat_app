@@ -1,10 +1,8 @@
 import 'dart:io';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bubble/bubble.dart';
-import 'package:flutter_complete_guide/widgets/user_info.dart';
 
 class Messages extends StatefulWidget {
   var username;
@@ -34,7 +32,7 @@ class _MessagesState extends State<Messages> {
         return ListView.builder(
           reverse: true,
           itemBuilder: (ctx, index) => GestureDetector(
-            onTap: () {
+            onDoubleTap: () {
               showDialog(
                   context: context,
                   builder: (ctx) => AlertDialog(
@@ -72,18 +70,6 @@ class _MessagesState extends State<Messages> {
                               ]),
                         ),
                       ));
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (ctx) => UserInfoDialog(),
-              //     settings: RouteSettings(
-              //       arguments: [
-              //         chatDocs[index]['userImage'],
-              //         chatDocs[index]['username']
-              //       ],
-              //     ),
-              //   ),
-              // );
             },
             child: Bubble(
               key: ValueKey(chatDocs[index].id),
@@ -127,15 +113,16 @@ class _MessagesState extends State<Messages> {
                   SizedBox(
                     height: 2,
                   ),
-                  Container(
-                    width: (chatDocs[index]['imageUrl'] != null ? 165 : null),
-                    child: Text(
-                      chatDocs[index]['text'],
-                      style: TextStyle(
-                        fontSize: 18,
+                  if (chatDocs[index]['text'] != "")
+                    Container(
+                      width: (chatDocs[index]['imageUrl'] != null ? 165 : null),
+                      child: Text(
+                        chatDocs[index]['text'],
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
               alignment: chatDocs[index]['userId'] ==

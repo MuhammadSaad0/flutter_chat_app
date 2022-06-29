@@ -149,7 +149,9 @@ class _NewMessageState extends State<NewMessage> {
         IconButton(onPressed: _pickImage, icon: Icon(Icons.attachment)),
         if (!waiting)
           IconButton(
-            onPressed: _controller.text == "" ? null : _sendMessage,
+            onPressed: _controller.text == "" && imagePicked == false
+                ? null
+                : _sendMessage,
             icon: Icon(Icons.send),
             color: Colors.pink,
           ),
