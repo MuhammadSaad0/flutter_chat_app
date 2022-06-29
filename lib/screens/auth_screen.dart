@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../widgets/auth_form.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({Key key}) : super(key: key);
@@ -56,6 +57,7 @@ class _AuthScreenState extends State<AuthScreen> {
     } catch (error) {
       print(error);
     }
+    await DefaultCacheManager().emptyCache();
   }
 
   @override

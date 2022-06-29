@@ -60,7 +60,8 @@ class _NewMessageState extends State<NewMessage> {
     final userData =
         await FirebaseFirestore.instance.collection('users').doc(uId).get();
     if (_pickedImage != null) {
-      final reference = FirebaseStorage.instance
+      var msg = _enteredMessage;
+      final reference = await FirebaseStorage.instance
           .ref()
           .child('message_image')
           .child(generator.generate() + ".jpg");
@@ -74,8 +75,8 @@ class _NewMessageState extends State<NewMessage> {
       });
       uploadTask.whenComplete(() async {
         url = await reference.getDownloadURL();
-        FirebaseFirestore.instance.collection('chat').add({
-          'text': _enteredMessage,
+        await FirebaseFirestore.instance.collection('chat').add({
+          'text': msg,
           'createdAt': Timestamp.now(),
           'userId': FirebaseAuth.instance.currentUser.uid,
           'username': userData['username'],
@@ -91,7 +92,7 @@ class _NewMessageState extends State<NewMessage> {
     } else {
       _controller.clear();
       url = null;
-      FirebaseFirestore.instance.collection('chat').add({
+      await FirebaseFirestore.instance.collection('chat').add({
         'text': _enteredMessage,
         'createdAt': Timestamp.now(),
         'userId': FirebaseAuth.instance.currentUser.uid,
@@ -103,8 +104,12 @@ class _NewMessageState extends State<NewMessage> {
         waiting = false;
         _pickedImage = null;
         url = null;
+        // _enteredMessage = "";
       });
     }
+    setState(() {
+      _enteredMessage = "";
+    });
   }
 
   @override
