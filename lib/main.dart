@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_complete_guide/widgets/user_info.dart';
 import './screens/chat_screen.dart';
 import './screens/auth_screen.dart';
 
@@ -44,6 +45,9 @@ class MyApp extends StatelessWidget {
           }
         },
       ),
+      routes: {
+        UserInfoDialog.routeName: ((context) => UserInfoDialog()),
+      },
     );
   }
 }

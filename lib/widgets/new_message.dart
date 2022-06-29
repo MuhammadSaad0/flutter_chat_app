@@ -43,6 +43,7 @@ class _NewMessageState extends State<NewMessage> {
   final _controller = new TextEditingController();
   var url = null;
   void handleTimeout() {
+    // callback function
     setState(() {
       waiting = false;
     });
@@ -50,7 +51,6 @@ class _NewMessageState extends State<NewMessage> {
 
   Timer scheduleTimeout([int milliseconds = 10000]) =>
       Timer(Duration(milliseconds: milliseconds), handleTimeout);
-
   void _sendMessage() async {
     setState(() {
       waiting = true;
@@ -69,7 +69,7 @@ class _NewMessageState extends State<NewMessage> {
 
       setState(() {
         imagePicked = false;
-        //_pickedImage = null;
+        _pickedImage = null;
         url = null;
       });
       uploadTask.whenComplete(() async {
@@ -79,9 +79,14 @@ class _NewMessageState extends State<NewMessage> {
           'createdAt': Timestamp.now(),
           'userId': FirebaseAuth.instance.currentUser.uid,
           'username': userData['username'],
-          //'userImage': userData['imageUrl'],
+          'userImage': userData['imageUrl'],
           'imageUrl': url,
         });
+      });
+      setState(() {
+        scheduleTimeout(5 * 1000);
+        _pickedImage = null;
+        url = null;
       });
     } else {
       _controller.clear();
@@ -91,15 +96,15 @@ class _NewMessageState extends State<NewMessage> {
         'createdAt': Timestamp.now(),
         'userId': FirebaseAuth.instance.currentUser.uid,
         'username': userData['username'],
-        //'userImage': userData['imageUrl'],
+        'userImage': userData['imageUrl'],
         'imageUrl': url,
       });
+      setState(() {
+        waiting = false;
+        _pickedImage = null;
+        url = null;
+      });
     }
-    setState(() {
-      //waiting = false;
-      scheduleTimeout(5 * 1000);
-      url = null;
-    });
   }
 
   @override
@@ -123,14 +128,24 @@ class _NewMessageState extends State<NewMessage> {
           ),
         ),
         if (imagePicked)
-          ClipRRect(
-              clipBehavior: Clip.none,
-              borderRadius: BorderRadius.circular(10),
-              child: Image(
-                width: 40,
-                height: 40,
-                image: FileImage(_pickedImage),
-              )),
+          GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  content: Image(image: FileImage(_pickedImage)),
+                ),
+              );
+            },
+            child: ClipRRect(
+                clipBehavior: Clip.none,
+                borderRadius: BorderRadius.circular(10),
+                child: Image(
+                  width: 40,
+                  height: 40,
+                  image: FileImage(_pickedImage),
+                )),
+          ),
         IconButton(onPressed: _pickImage, icon: Icon(Icons.attachment)),
         if (!waiting)
           IconButton(
