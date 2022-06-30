@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bubble/bubble.dart';
+import 'package:zoom_pinch_overlay/zoom_pinch_overlay.dart';
 
 class Messages extends StatefulWidget {
   var username;
@@ -80,20 +81,45 @@ class _MessagesState extends State<Messages> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (chatDocs[index]['imageUrl'] != null)
-                    Image(
-                      frameBuilder:
-                          (context, child, frame, wasSynchronouslyLoaded) {
-                        return child;
+                    GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                              titlePadding: EdgeInsets.all(0),
+                              contentPadding: EdgeInsets.all(0),
+                              content: Stack(children: [
+                                ZoomOverlay(
+                                  maxScale: 100,
+                                  minScale: 0.1,
+                                  twoTouchOnly: true,
+                                  child: Image(
+                                      image: NetworkImage(
+                                          chatDocs[index]['imageUrl'])),
+                                ),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.pinch),
+                                  iconSize: 18,
+                                )
+                              ])),
+                        );
                       },
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) {
+                      child: Image(
+                        frameBuilder:
+                            (context, child, frame, wasSynchronouslyLoaded) {
                           return child;
-                        } else {
-                          return CircularProgressIndicator();
-                        }
-                      },
-                      height: 200,
-                      image: NetworkImage(chatDocs[index]['imageUrl']),
+                        },
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        },
+                        height: 200,
+                        image: NetworkImage(chatDocs[index]['imageUrl']),
+                      ),
                     ),
                   if (chatDocs[index]['imageUrl'] != null)
                     SizedBox(
@@ -141,29 +167,6 @@ class _MessagesState extends State<Messages> {
               elevation: 10,
             ),
           ),
-          // Positioned(
-          //     top: -10,
-          //     left: chatDocs[index]['userId'] ==
-          //             FirebaseAuth.instance.currentUser.uid
-          //         ? MediaQuery.of(context).size.width /
-          //             (MediaQuery.of(context).orientation ==
-          //                     Orientation.landscape
-          //                 ? 1.05
-          //                 : 1.1)
-          //         : null,
-          //     right: chatDocs[index]['userId'] ==
-          //             FirebaseAuth.instance.currentUser.uid
-          //         ? null
-          //         : MediaQuery.of(context).size.width /
-          //             (MediaQuery.of(context).orientation ==
-          //                     Orientation.landscape
-          //                 ? 1.05
-          //                 : 1.1),
-          //     child: CircleAvatar(
-          //       maxRadius: 15,
-          //       backgroundImage: NetworkImage(chatDocs[index]['userImage']),
-          //     )),
-
           itemCount: chatDocs.length,
         );
       },

@@ -142,14 +142,34 @@ class _NewMessageState extends State<NewMessage> {
                 ),
               );
             },
-            child: ClipRRect(
+            child: Stack(children: [
+              ClipRRect(
                 clipBehavior: Clip.none,
                 borderRadius: BorderRadius.circular(10),
                 child: Image(
                   width: 40,
                   height: 40,
                   image: FileImage(_pickedImage),
-                )),
+                ),
+              ),
+              Positioned(
+                right: 12,
+                bottom: 13,
+                child: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _pickedImage = null;
+                      imagePicked = false;
+                    });
+                  },
+                  icon: Icon(
+                    Icons.delete_forever_sharp,
+                    color: Colors.white,
+                    size: 18,
+                  ),
+                ),
+              )
+            ]),
           ),
         IconButton(onPressed: _pickImage, icon: Icon(Icons.attachment)),
         if (!waiting)

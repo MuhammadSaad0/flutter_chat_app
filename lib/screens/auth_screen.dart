@@ -33,7 +33,7 @@ class _AuthScreenState extends State<AuthScreen> {
         UploadTask uploadTask = reference.putFile(image);
         uploadTask.whenComplete(() async {
           url = await reference.getDownloadURL();
-          FirebaseFirestore.instance
+          await FirebaseFirestore.instance
               .collection("users")
               .doc(authResult.user.uid)
               .set({
