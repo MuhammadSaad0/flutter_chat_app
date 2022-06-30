@@ -13,6 +13,32 @@ class UserImagePicker extends StatefulWidget {
 class _UserImagePickerState extends State<UserImagePicker> {
   File _pickedImage;
   void _pickImage() async {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              contentPadding: EdgeInsets.all(0),
+              insetPadding: EdgeInsets.all(0),
+              content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton.icon(
+                      onPressed: _pickImageCamera,
+                      icon: Icon(Icons.camera),
+                      label:
+                          Text("Camera", style: TextStyle(color: Colors.white)),
+                    ),
+                    TextButton.icon(
+                        onPressed: _pickImageGallery,
+                        icon: Icon(Icons.image),
+                        label: Text(
+                          "Gallery",
+                          style: TextStyle(color: Colors.white),
+                        )),
+                  ]),
+            ));
+  }
+
+  void _pickImageCamera() async {
     final imagePicker = ImagePicker();
     final pickedImageFile = await imagePicker.pickImage(
       source: ImageSource.camera,
@@ -24,6 +50,22 @@ class _UserImagePickerState extends State<UserImagePicker> {
       _pickedImage = File(pickedImageFile.path);
     });
     widget.imagePickFn(_pickedImage);
+    Navigator.of(context).pop();
+  }
+
+  void _pickImageGallery() async {
+    final imagePicker = ImagePicker();
+    final pickedImageFile = await imagePicker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 70,
+      maxWidth: 200,
+      maxHeight: 200,
+    );
+    setState(() {
+      _pickedImage = File(pickedImageFile.path);
+    });
+    widget.imagePickFn(_pickedImage);
+    Navigator.of(context).pop();
   }
 
   @override
