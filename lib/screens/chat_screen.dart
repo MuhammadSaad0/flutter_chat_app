@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_complete_guide/screens/auth_screen.dart';
 import '../widgets/messages.dart';
 import '../widgets/new_message.dart';
 
 class ChatScreen extends StatefulWidget {
+  var roomKey;
+  ChatScreen(this.roomKey);
+
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
@@ -34,6 +38,7 @@ class _ChatScreenState extends State<ChatScreen> {
             onChanged: (itemId) {
               if (itemId == "Logout") {
                 FirebaseAuth.instance.signOut();
+                Navigator.pushReplacementNamed(context, AuthScreen.routeName);
               }
             },
             icon: Icon(
@@ -63,8 +68,8 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       body: Container(
         child: Column(children: [
-          Expanded(child: Messages()),
-          NewMessage(),
+          Expanded(child: Messages(widget.roomKey)),
+          NewMessage(widget.roomKey),
         ]),
       ),
     );

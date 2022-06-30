@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_complete_guide/screens/room_selection_screen.dart';
 import './screens/chat_screen.dart';
 import './screens/auth_screen.dart';
 
@@ -38,12 +39,16 @@ class MyApp extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (ctx, userSnapshot) {
           if (userSnapshot.hasData) {
-            return ChatScreen();
+            return RoomSelect();
           } else {
             return AuthScreen();
           }
         },
       ),
+      routes: {
+        AuthScreen.routeName: ((context) => AuthScreen()),
+        RoomSelect.routeName: ((context) => RoomSelect()),
+      },
     );
   }
 }

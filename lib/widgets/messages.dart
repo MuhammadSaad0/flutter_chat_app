@@ -8,6 +8,8 @@ import 'package:zoom_pinch_overlay/zoom_pinch_overlay.dart';
 class Messages extends StatefulWidget {
   var username;
   File img;
+  var roomKey;
+  Messages(this.roomKey);
   @override
   State<Messages> createState() => _MessagesState();
 }
@@ -17,6 +19,8 @@ class _MessagesState extends State<Messages> {
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: FirebaseFirestore.instance
+          .collection('chats')
+          .doc('${widget.roomKey}')
           .collection('chat')
           .orderBy(
             'createdAt',

@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_complete_guide/screens/room_selection_screen.dart';
 import '../widgets/auth_form.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({Key key}) : super(key: key);
+  static const routeName = "/authscreen";
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -23,6 +25,7 @@ class _AuthScreenState extends State<AuthScreen> {
       if (isLogin) {
         authResult = await _auth.signInWithEmailAndPassword(
             email: email, password: password);
+        Navigator.of(context).pushReplacementNamed(RoomSelect.routeName);
       } else {
         authResult = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
@@ -42,6 +45,7 @@ class _AuthScreenState extends State<AuthScreen> {
             'imageUrl': url,
           });
         });
+        Navigator.of(context).popAndPushNamed(RoomSelect.routeName);
       }
     } on FirebaseAuthException catch (error) {
       var message = "An error occurred. Please check your credentials";

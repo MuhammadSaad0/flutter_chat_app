@@ -8,7 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:random_string_generator/random_string_generator.dart';
 
 class NewMessage extends StatefulWidget {
-  const NewMessage({Key key}) : super(key: key);
+  var roomKey;
+  NewMessage(this.roomKey);
 
   @override
   State<NewMessage> createState() => _NewMessageState();
@@ -75,7 +76,11 @@ class _NewMessageState extends State<NewMessage> {
       });
       uploadTask.whenComplete(() async {
         url = await reference.getDownloadURL();
-        await FirebaseFirestore.instance.collection('chat').add({
+        await FirebaseFirestore.instance
+            .collection('chats')
+            .doc('${widget.roomKey}')
+            .collection('chat')
+            .add({
           'text': msg,
           'createdAt': Timestamp.now(),
           'userId': FirebaseAuth.instance.currentUser.uid,
@@ -92,7 +97,11 @@ class _NewMessageState extends State<NewMessage> {
     } else {
       _controller.clear();
       url = null;
-      await FirebaseFirestore.instance.collection('chat').add({
+      await FirebaseFirestore.instance
+          .collection('chats')
+          .doc('${widget.roomKey}')
+          .collection('chat')
+          .add({
         'text': _enteredMessage,
         'createdAt': Timestamp.now(),
         'userId': FirebaseAuth.instance.currentUser.uid,
