@@ -135,8 +135,8 @@ class _MessagesState extends State<Messages> {
                             .toString()
                             .startsWith("http"))
                           Container(
-                            width: 70,
-                            height: 90,
+                            width: 80,
+                            height: 80,
                             decoration: BoxDecoration(
                               border: Border(
                                 left: BorderSide(

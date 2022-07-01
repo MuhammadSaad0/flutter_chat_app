@@ -240,7 +240,19 @@ class _NewMessageState extends State<NewMessage> {
                   )
                 ]),
               ),
-            IconButton(onPressed: _pickImage, icon: Icon(Icons.attachment)),
+            if (reply.getreply != "" && !waiting)
+              IconButton(
+                onPressed: () {
+                  reply.changeReply("");
+                },
+                icon: Icon(
+                  Icons.undo,
+                  size: 20,
+                ),
+              ),
+            IconButton(
+                onPressed: waiting ? null : _pickImage,
+                icon: Icon(Icons.attachment)),
             if (!waiting)
               IconButton(
                 onPressed: _controller.text == "" && imagePicked == false
