@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_complete_guide/provider/deleting_provider.dart';
 import 'package:flutter_complete_guide/screens/auth_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_complete_guide/screens/room_selection_screen.dart';
 import 'package:provider/provider.dart';
 import '../widgets/messages.dart';
 import '../widgets/new_message.dart';
@@ -108,6 +109,9 @@ class _ChatScreenState extends State<ChatScreen> {
                     FirebaseAuth.instance.signOut();
                     Navigator.pushReplacementNamed(
                         context, AuthScreen.routeName);
+                  } else if (itemId == "ChangeRoom") {
+                    Navigator.pushReplacementNamed(
+                        context, RoomSelect.routeName);
                   }
                 },
                 icon: Icon(
@@ -130,7 +134,22 @@ class _ChatScreenState extends State<ChatScreen> {
                       ]),
                     ),
                     value: "Logout",
-                  )
+                  ),
+                  DropdownMenuItem(
+                    child: Container(
+                      child: Row(children: [
+                        Icon(Icons.logout),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          "Change Room",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ]),
+                    ),
+                    value: "ChangeRoom",
+                  ),
                 ],
               ),
           ]),
