@@ -66,6 +66,7 @@ class _NewMessageState extends State<NewMessage> {
         await FirebaseFirestore.instance.collection('users').doc(uId).get();
     if (_pickedImage != null) {
       var msg = _enteredMessage;
+      var replyinp = reply.getreply;
       final reference = await FirebaseStorage.instance
           .ref()
           .child('message_image')
@@ -91,14 +92,14 @@ class _NewMessageState extends State<NewMessage> {
           'username': userData['username'],
           'userImage': userData['imageUrl'],
           'imageUrl': url,
-          'replyingTo': reply.getreply,
+          'replyingTo': replyinp,
         });
       });
       setState(() {
         scheduleTimeout(5 * 1000);
         _pickedImage = null;
         url = null;
-        //reply.changeReply("");
+        reply.changeReply("");
       });
     } else {
       _controller.clear();
@@ -252,7 +253,9 @@ class _NewMessageState extends State<NewMessage> {
               ),
             IconButton(
                 onPressed: waiting ? null : _pickImage,
-                icon: Icon(Icons.attachment)),
+                icon: Icon(
+                  Icons.attachment,
+                )),
             if (!waiting)
               IconButton(
                 onPressed: _controller.text == "" && imagePicked == false

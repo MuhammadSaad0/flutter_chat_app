@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_complete_guide/provider/deleting_provider.dart';
 import 'package:flutter_complete_guide/provider/reply_provider.dart';
 import 'package:flutter_complete_guide/screens/room_selection_screen.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => Reply()),
+        ChangeNotifierProvider(create: (context) => DeleteProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Chat',

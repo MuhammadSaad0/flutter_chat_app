@@ -36,7 +36,8 @@ dependencies:
   zoom_pinch_overlay: ^1.2.0
   swipe_to: ^1.0.2
   provider: ^6.0.3
-  
+  firebase_core_platform_interface: 4.4.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -46,9 +47,9 @@ flutter_native_splash:
   image: assets/splash.png
 flutter_icons:
   android: true
-  image_path: assets/splash.png
+  image_path: assets/icon.png
   adaptive_icon_background: "#000000" 
-  adaptive_icon_foreground: assets/splash.png
+  adaptive_icon_foreground: assets/icon.png
 
 
 
