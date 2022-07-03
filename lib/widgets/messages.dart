@@ -221,7 +221,32 @@ class _MessagesState extends State<Messages> {
                             ),
                           if (chatDocs[index]['imageUrl'] != null)
                             SizedBox(
-                              height: 10,
+                              height: 5,
+                            ),
+                          if (chatDocs[index]['thumbsUp'] != 0 ||
+                              chatDocs[index]['thumbsDown'] != 0)
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                TextButton.icon(
+                                    onPressed: null,
+                                    icon: Icon(
+                                      Icons.thumb_up_sharp,
+                                      size: 14,
+                                    ),
+                                    label: Text(chatDocs[index]['thumbsUp']
+                                        .toString())),
+                                TextButton.icon(
+                                    onPressed: null,
+                                    icon: Icon(
+                                      Icons.thumb_down_sharp,
+                                      size: 14,
+                                    ),
+                                    label: Text(
+                                      chatDocs[index]['thumbsDown'].toString(),
+                                    ))
+                              ],
                             ),
                           Text(
                             chatDocs[index]['username'],

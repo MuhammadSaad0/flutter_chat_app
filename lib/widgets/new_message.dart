@@ -93,6 +93,8 @@ class _NewMessageState extends State<NewMessage> {
           'userImage': userData['imageUrl'],
           'imageUrl': url,
           'replyingTo': replyinp,
+          'thumbsUp': 0,
+          'thumbsDown': 0,
         });
       });
       setState(() {
@@ -116,6 +118,8 @@ class _NewMessageState extends State<NewMessage> {
         'userImage': userData['imageUrl'],
         'imageUrl': url,
         'replyingTo': reply.getreply,
+        'thumbsUp': 0,
+        'thumbsDown': 0,
       });
       setState(() {
         waiting = false;
@@ -144,7 +148,8 @@ class _NewMessageState extends State<NewMessage> {
         clipBehavior: Clip.none,
         children: [
           if (reply.getreply != "" &&
-              !reply.getreply.startsWith("https://firebasestorage"))
+              !reply.getreply.startsWith("https://firebasestorage") &&
+              reply.getreply != "This message has been deleted")
             Positioned(
               left: MediaQuery.of(context).size.width / 10000,
               top: -40,

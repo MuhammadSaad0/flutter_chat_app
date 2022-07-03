@@ -44,6 +44,56 @@ class _ChatScreenState extends State<ChatScreen> {
                   enableFeedback: true,
                   splashColor: Color.fromRGBO(255, 255, 255, 0.4),
                   splashRadius: 400,
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              contentPadding: EdgeInsets.all(0),
+                              titlePadding: EdgeInsets.all(0),
+                              insetPadding: EdgeInsets.zero,
+                              actionsAlignment: MainAxisAlignment.spaceEvenly,
+                              actions: [
+                                IconButton(
+                                    onPressed: () {
+                                      FirebaseFirestore.instance
+                                          .collection('chats')
+                                          .doc('${widget.roomKey}')
+                                          .collection('chat')
+                                          .doc(Isdeleting.getChatDocIndex)
+                                          .update({
+                                        'thumbsUp': FieldValue.increment(1),
+                                      });
+                                      Navigator.of(context).pop();
+                                      Isdeleting.changeDeleting(false, "");
+                                    },
+                                    icon: Icon(Icons.thumb_up_sharp)),
+                                IconButton(
+                                  onPressed: () {
+                                    FirebaseFirestore.instance
+                                        .collection('chats')
+                                        .doc('${widget.roomKey}')
+                                        .collection('chat')
+                                        .doc(Isdeleting.getChatDocIndex)
+                                        .update({
+                                      'thumbsDown': FieldValue.increment(1),
+                                    });
+                                    Navigator.of(context).pop();
+                                    Isdeleting.changeDeleting(false, "");
+                                  },
+                                  icon: Icon(Icons.thumb_down_sharp),
+                                ),
+                              ],
+                            ));
+                  },
+                  icon: Icon(
+                    Icons.emoji_emotions,
+                    color: Colors.white,
+                  )),
+            if (Isdeleting.getDeleting == true)
+              IconButton(
+                  enableFeedback: true,
+                  splashColor: Color.fromRGBO(255, 255, 255, 0.4),
+                  splashRadius: 400,
                   onPressed: () async {
                     var shouldDelete;
                     await showDialog(
@@ -81,6 +131,8 @@ class _ChatScreenState extends State<ChatScreen> {
                         'text': 'This message has been deleted',
                         'replyingTo': "",
                         'imageUrl': null,
+                        'thumbsUp': 0,
+                        'thumbsDown': 0,
                       });
                     Isdeleting.changeDeleting(false, "");
                     shouldDelete = false;
