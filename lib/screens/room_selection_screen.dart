@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/screens/chat_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'auth_screen.dart';
 
 class RoomSelect extends StatefulWidget {
   const RoomSelect({Key key}) : super(key: key);
@@ -21,6 +23,7 @@ class _RoomSelectState extends State<RoomSelect> {
     if (formValid) {
       _formKey.currentState.save();
     }
+    await DefaultCacheManager().emptyCache();
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -80,8 +83,11 @@ class _RoomSelectState extends State<RoomSelect> {
                         height: 10,
                       ),
                       TextButton.icon(
-                          onPressed: () {
+                          onPressed: () async {
+                            await DefaultCacheManager().emptyCache();
                             FirebaseAuth.instance.signOut();
+                            Navigator.of(context)
+                                .pushReplacementNamed(AuthScreen.routeName);
                           },
                           icon: Icon(Icons.logout),
                           label: Text("Logout")),

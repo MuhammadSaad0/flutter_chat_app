@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -47,12 +46,14 @@ class _MessagesState extends State<Messages> {
           )
           .snapshots(),
       builder: (ctx, AsyncSnapshot<QuerySnapshot> chatSnapshot) {
-        if (chatSnapshot.data == null) {
+        if (chatSnapshot.data == null ||
+            chatSnapshot.connectionState == ConnectionState.waiting) {
           return Center(
             child: CircularProgressIndicator(),
           );
         }
         final chatDocs = chatSnapshot.data.docs;
+
         return ListView.builder(
           reverse: true,
           itemBuilder: (ctx, index) => SwipeTo(
@@ -112,7 +113,9 @@ class _MessagesState extends State<Messages> {
                   child: InkWell(
                     onLongPress: () {
                       if (chatDocs[index]['text'] !=
-                          "This message has been deleted")
+                              "This message has been deleted" &&
+                          chatDocs[index]['userId'] ==
+                              FirebaseAuth.instance.currentUser.uid)
                         deleting.changeDeleting(true, chatDocs[index].id);
                     },
                     child: Bubble(
