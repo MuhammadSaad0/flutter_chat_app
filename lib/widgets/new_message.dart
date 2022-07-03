@@ -143,7 +143,8 @@ class _NewMessageState extends State<NewMessage> {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          if (reply.getreply != "" && !reply.getreply.startsWith("http"))
+          if (reply.getreply != "" &&
+              !reply.getreply.startsWith("https://firebasestorage"))
             Positioned(
               left: MediaQuery.of(context).size.width / 10000,
               top: -40,
@@ -166,7 +167,7 @@ class _NewMessageState extends State<NewMessage> {
                 ),
               ),
             ),
-          if (reply.getreply.startsWith("http"))
+          if (reply.getreply.startsWith("https://firebasestorage"))
             Positioned(
               left: MediaQuery.of(context).size.width / 10000,
               top: -40,

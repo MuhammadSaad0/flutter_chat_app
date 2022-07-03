@@ -46,8 +46,7 @@ class _MessagesState extends State<Messages> {
           )
           .snapshots(),
       builder: (ctx, AsyncSnapshot<QuerySnapshot> chatSnapshot) {
-        if (chatSnapshot.data == null ||
-            chatSnapshot.connectionState == ConnectionState.waiting) {
+        if (chatSnapshot.data == null) {
           return Center(
             child: CircularProgressIndicator(),
           );
